@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-md-8 col-md-offset-2">
+  <h2>Login</h2>
+  <form method="post">
+      <em>username is whatever email you signed up under</em>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+  </div>
+</div>
+{% endblock %}

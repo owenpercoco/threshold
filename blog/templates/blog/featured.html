@@ -1,0 +1,74 @@
+
+
+{% load filters %}
+{% block content %}
+
+
+    {% for featured in features %}
+
+            <div id ="featured-post" class="row featured" style="
+
+            background:url(/media/{{featured.post.image.image}});
+            background-repeat:no-repeat;
+            background-position-y:center;
+            background-size:cover;
+            position:absolute;
+            top:1px">
+
+                <div class="featured-info" style="padding:30px; z-index:1;" >
+                          <a href="{% url 'post_detail' pk=featured.post.pk %}"><span class="post-title" style="color:white"><h4>{{ featured.post.title }}</h4></span></a>
+
+                            <span class="date"style="color:white">
+                                <a href="{% url 'profile_detail' slug=featured.post.author.profile.slug %}" style="color:white">{{featured.post.author.profile.display_name}}</a> - {{ featured.post.published_date|date:"F d Y" }}
+                            </span>
+
+                </div>
+            </div>
+            <script>
+                var window = $(window);
+                $( document ).ready(function() {
+                    handleFeatured();
+                    scrollHandler();
+                });
+
+                $( window ).resize(function() {
+                  handleFeatured();
+                });
+
+                function handleFeatured(){
+                    console.log("handled");
+                    var Feat = $("#featured-post");
+                    var WWidth = $(window).width();
+                    var WHeight = $(window).height();
+                    var right = 0
+                    Feat.css('right', right)
+                    var right = 0 -($(window).width() - (Feat.offset().left + Feat.width()));
+
+                    console.log(Feat.position().left)
+                    Feat.css('right', right)
+                    Feat.width(WWidth);
+
+                    Feat.height(750);
+                    Feat.parent().height(Feat.height());
+
+                }
+                $(document).on('scroll', function() {
+                    scrollHandler();
+                })
+
+                function scrollHandler(){
+                    if($(this).scrollTop() < $('#header-bar').position().top){
+                        $('#header-bar').css('background', 'rgba(0, 0, 0, 0.18)');
+                    }
+                    if($(this).scrollTop()>$('#header-bar').position().top){
+
+                        $('#header-bar').css('background', 'black');
+                    }else{
+                         $('#header-bar').css('background', 'rgba(0, 0, 0, 0.18)');
+                    }
+                }
+            </script>
+
+    {% endfor %}
+
+{% endblock %}

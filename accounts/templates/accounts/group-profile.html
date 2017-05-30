@@ -1,0 +1,76 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class = "row border-bottom" style="padding-bottom:25px">
+    <div class="col-md-4 text-center">
+        <div id="avatar-area">
+            {% for post in posts|slice:"1" %}
+                <div class="avatar-area">
+                   <img class="img avatar-img" src ="/media/{{post.image.image}}" >
+                </div>
+             {% endfor %}
+
+
+            <h2>{{ group.name }}</h2>
+
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="bio paddingSmall">
+            <p>{{ group.bio }}</p>
+
+        </div>
+    </div>
+</div>
+<div class="row" style="padding-top:30px">
+    {% for user in users %}
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row text-center">
+                        <img class="img-responsive panel-img avatar-img" src="/media/{{user.profile.avatar.image}}">
+
+                        <h5>{{ user.profile.display_name }}</h5>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+<br>
+<hr>
+<br>
+<div class="row" style="padding-top:30px">
+    {% for post in posts %}
+    <div class="col-md-6">
+        {% if post.public == 1 %}
+        <div class="panel panel-default">
+        {% else %}
+        <div class="panel panel-default private">
+        {% endif %}
+            <div class="panel-body">
+                <div class="row text-center">
+                    <a href="{% url 'post_detail' pk=post.pk %}"><h5>{{ post.title }}</h5></a>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <img class="img-responsive panel-img avatar-img" src="/media/{{post.image.image}}">
+
+                        <a href="{% url 'post_edit' pk=post.pk %}"><h5><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {{ post.title }} </h5></a>
+                    </div>
+                    <div class="col-md-6 text-left">
+                        <span>{{post.description}}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+
+{% endblock %}

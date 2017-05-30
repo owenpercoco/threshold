@@ -1,0 +1,50 @@
+
+
+{% load filters %}
+{% block content %}
+
+
+    {% for post in posts %}
+            {% if forloop.counter|divisibleby:2 == 0 %}
+            <a href="{% url 'post_detail' pk=post.pk %}" style="display:block">
+            <div class = "row front-post">
+
+                    <div class="col-md-6">
+                        <img class="img-responsive post-avatar" style="margin:auto" src=/media/{{post.image.image}}>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="post-info">
+                            <span class="post-title"><h4>{{ post.title }}</h4></span>
+
+                            <span class="date">
+                                <a href="{% url 'profile_detail' slug=post.author.profile.slug %}">{{post.author.profile.display_name}}</a> - {{ post.published_date|date:"F d Y" }}
+                            </span>
+                            <span class="post-excerpt"><p>{{ post.description }}</p></span>
+                        </div>
+                    </div>
+
+            </div>
+            </a>
+            {% else %}
+            <a href="{% url 'post_detail' pk=post.pk %}">
+                <div class = "row front-post">
+                   <div class="col-md-6 col-md-push-6">
+                       <a href="{% url 'post_detail' pk=post.pk %}"> <img class="img-responsive post-avatar" style="margin:auto" src=/media/{{post.image.image}}></a>
+                    </div>
+                     <div class="col-md-6 col-md-pull-6">
+                        <div class="post-info">
+                            <a href="{% url 'post_detail' pk=post.pk %}"><span class="post-title"><h4>{{ post.title }}</h4></span></a>
+
+                            <span class="date">
+                                <a href="{% url 'profile_detail' slug=post.author.profile.slug %}">{{post.author.profile.display_name}}</a> - {{ post.published_date|date:"F d Y" }}
+                            </span>
+                            <span class="post-excerpt"><p>{{ post.description }}</p></span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            {% endif %}
+
+    {% endfor %}
+
+{% endblock %}

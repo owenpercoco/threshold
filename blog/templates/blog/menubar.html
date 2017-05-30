@@ -1,0 +1,37 @@
+
+<nav class="navbar navbar-default navbar-fixed-top" id="header-bar" style="transition-duration: 0.5s;background:black;border-bottom: 2.5px grey solid; width:100%; z-index:4">
+  <div class="container-fluid">
+      <div class = "nav navbar-brand lg-Text">
+                    <a href="{% url 'post_list' %}"><span class="mainLink paddingSmall">THRESHOLD</span></a>
+                </div>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+      </button>
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li>
+            </li>
+            <li>
+
+            </li>
+        </ul>
+            {% if LOGGED_IN == True %}
+                {% include "accounts/logged_in_area.html" %}
+            {% else %}
+                {% include "accounts/logged_out_area.html" %}
+            {% endif %}
+
+    </div>
+  </div>
+</nav>
+<div id="categoryBar" class="paddingSmall" style="display:none">
+        <ul>
+        {% for category in CATEGORIES %}
+            <li class="md-Text"><a class=" category" href="{% url 'category' slug=category.slug %}"><span>{{ category.title}}</span></a></li>
+        {% endfor%}
+        </ul>
+</div>

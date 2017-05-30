@@ -1,0 +1,25 @@
+<ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="#" class=" navbar-link top-menu" data-toggle="dropdown"   aria-expanded="false"><span class="glyphicon glyphicon-plus"> <span class="caret"></span></a>
+              <ul class="dropdown-menu group-list">
+                <a href="{% url 'post_new' %}" class="navbar-link"><span class="glyphicon glyphicon-plus"></span>New Post</a><br>
+                <a href="{% url 'new_group' %}" class="navbar-link"><span class="glyphicon glyphicon-plus"></span>New Group</a><br>
+
+                 </ul>
+
+        </li>
+        <li>
+            <a href="{% url 'profile_detail' %}" class="navbar-link top-menu">My Profile</a>
+        </li>
+        <li>
+            <a href="/accounts/logout" class="navbar-link top-menu">Logout</a>
+        </li>
+
+        <li>
+          <a href="#" class=" navbar-link top-menu" data-toggle="dropdown"   aria-expanded="false"> Groups <span class="caret"></span></a>
+          <ul class="dropdown-menu group-list">
+            {% for group in GROUPS %}
+               <a href="{% url 'group_detail' slug=group.slug %}" class=" "><li class="dropdown-link">{{group.name}}</li></a>
+            {% endfor %}
+             </ul>
+</ul>

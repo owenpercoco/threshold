@@ -1,0 +1,133 @@
+{% extends 'blog/base.html' %}
+{% block additional_head %}
+<meta property="og:image" content="http://{{ request.get_host }}/media/{{post.image.image}}"/>
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:title" content="{{post.title}}"/>
+<meta property="og:url" content="{{ request.get_host }}{% url 'post_detail' pk=post.pk%}"/>
+<meta property="og:description" content="{{post.description}}"/>
+{% endblock %}
+{% block content %}
+
+    <div class="post">
+        <div class="row">
+             <div class="post-header text-center" style ="background:url(/media/{{post.image.image}}) no-repeat center; background-size:cover;">
+            <div class="post-page-info"style="">
+            <h1 class="post-main-title">{{ post.title }}</h1>
+
+
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2" style="padding-bottom:10px; border-bottom:5px solid; border-bottom-color: {{ post.style.secondary_color }}">
+                <div class="created">
+              <span class="author"><a href="{% url 'profile_detail' slug=post.author.profile.slug %}">{{ post.author.profile.display_name }}</a></span></br>
+              {% if post.group %}
+              <span class="group"><a href="{% url 'group_detail' slug=post.group.slug %}">{{ post.group.name }}</a></span>
+              {% endif %}
+                {% if post.published_date %}
+                <div class="date">
+                    {{ post.published_date }}
+                </div>
+            {% endif %}
+            </div>
+            <div class="post__share">
+                <div class="post__share__outlets">
+                    <a title="{{post.title}}" href="http://www.facebook.com/sharer.php?u={{ request.get_host }}{% url 'post_detail' pk=post.pk%}" target="_blank"><img  src="/media/t/facebookF.JPG" width="" height="" alt="Share"/></a>
+
+                </div>
+            </div>
+            </div>
+            <!--<div class="fb-share-button" data-href="http://www.threshold.one/post/23/"
+            data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank"
+            href="https://www.facebook.com/sharer/sharer.php?u={{ request.get_host }}{% url 'post_detail' pk=post.pk%}F&amp;src=sdkpreparse">Share</a></div>-->
+            <div class="col-md-10">
+
+
+
+            <div class="article-content">
+            <div>{{ post.text|safe }}</div>
+            </div>
+            </div>
+        </div>
+ <div class="row" style="padding-top:30px">
+    <div class="col-md-4 col-md-offset-2">
+                <div class="row text-center">
+                        <img class="img-responsive panel-img avatar-img" src="/media/{{post.author.profile.avatar.image}}">
+
+                        <h5>{{ post.author.profile.display_name }}</h5>
+
+                </div>
+    </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+                <div>
+                    {{ post.author.profile.bio }}
+                </div>
+    </div>
+</div>
+    {% if post.group %}
+<!-- Button trigger modal -->
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+      See More Group Members
+    </button>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width:100%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{ post.group}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="padding-top:30px">
+            <div class="col-md-12">
+            {% for user in users %}
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row text-center">
+                                <img class="img-responsive panel-img avatar-img" src="/media/{{user.profile.avatar.image}}">
+
+                                <h5>{{ user.profile.display_name }}</h5>
+
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                {% endfor %}
+                </div>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    {% endif %}
+</div>
+<script>
+$( ".article-content p" ).last().addClass("p-underline");
+$(".p-underline").css('border-bottom-color', '{{ post.style.third_color }}')
+$(".article-content h1").addClass('pullquote');
+$(".pullquote").css('-webkit-text-fill-color', '{{ post.style.color }}');
+$(".pullquote").css('border', '5px solid {{ post.style.color }}');
+$('.article-content a').css('color', '{{ post.style.secondary_color }}')
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').focus()
+})
+$(document).ready(function(){
+  $('.article-content a').attr('target', '_blank');
+
+});
+
+</script>
+
+{% endblock %}
